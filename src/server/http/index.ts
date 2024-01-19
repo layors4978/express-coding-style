@@ -2,6 +2,7 @@ import { createServer, Server } from 'http';
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import bodyParser from 'body-parser';
 
 import { logger } from '@/utils/logging/logger';
 
@@ -9,6 +10,8 @@ export function initServer(): Server {
   const app = express();
 
   app.use(helmet());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   morgan.token('json', (req: any, res: any) =>
     JSON.stringify({
@@ -29,6 +32,9 @@ export function initServer(): Server {
         write: (text: string) => {
           const log = text.replace(/\n$/, '');
           const { method, url, statusCode, ...json } = JSON.parse(log);
+          if (json.body?.password) {
+            json.body.password = '*****';
+          }
           logger.http({
             message: `${statusCode} ${method} ${url}`,
             ...json,
@@ -44,6 +50,9 @@ export function initServer(): Server {
         write: (text: string) => {
           const log = text.replace(/\n$/, '');
           const { method, url, statusCode, ...json } = JSON.parse(log);
+          if (json.body?.password) {
+            json.body.password = '*****';
+          }
           logger.error({
             message: `${statusCode} ${method} ${url}`,
             ...json,
