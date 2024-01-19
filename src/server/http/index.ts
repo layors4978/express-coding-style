@@ -3,6 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import { logger } from '@/utils/logging/logger';
 
@@ -10,6 +11,7 @@ export function initServer(): Server {
   const app = express();
 
   app.use(helmet());
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
