@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { logger } from '@/utils/logging/logger';
+import { apiRouter } from '@/routes';
 
 export function initServer(): Server {
   const app = express();
@@ -63,6 +64,8 @@ export function initServer(): Server {
       },
     }),
   );
+
+  app.use(apiRouter);
 
   return createServer(app);
 }
