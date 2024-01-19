@@ -1,11 +1,14 @@
 import { createServer, Server } from 'http';
 import express from 'express';
 import morgan from 'morgan';
+import helmet from 'helmet';
 
 import { logger } from '@/utils/logging/logger';
 
 export function initServer(): Server {
   const app = express();
+
+  app.use(helmet());
 
   morgan.token('json', (req: any, res: any) =>
     JSON.stringify({
