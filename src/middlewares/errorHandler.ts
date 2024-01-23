@@ -10,6 +10,11 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ): void {
+  if (res.headersSent) {
+    next(err);
+    return;
+  }
+
   const httpError = toHttpError(err);
 
   if (httpError instanceof InternalServerError) {
