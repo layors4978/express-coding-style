@@ -7,6 +7,8 @@ import cors from 'cors';
 
 import { logger } from '@/utils/logging/logger';
 import { apiRouter } from '@/routes';
+import { notFoundHandler } from '@/middlewares/notFoundHandler';
+import { errorHandler } from '@/middlewares/errorHandler';
 
 export function initServer(): Server {
   const app = express();
@@ -66,6 +68,8 @@ export function initServer(): Server {
   );
 
   app.use(apiRouter);
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   return createServer(app);
 }
