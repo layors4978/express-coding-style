@@ -18,6 +18,12 @@ export class NotFoundError extends HttpError {
   }
 }
 
+export class UnauthoirzedError extends HttpError {
+  public constructor(code: string, message: string) {
+    super(StatusCodes.UNAUTHORIZED, code, message);
+  }
+}
+
 export class InternalServerError extends HttpError {
   public stack: string | undefined;
 
@@ -31,6 +37,9 @@ export function toHttpError(customError: CustomError | Error): HttpError {
   switch (customError.name) {
     case ErrorCode.PATH_NOT_FOUND_ERROR:
       return new NotFoundError(customError.name, customError.message);
+    case ErrorCode.ACCESS_TOKEN_EXPIRED_ERROR:
+    case ErrorCode.INVALID_ACCESS_TOKEN_ERROR:
+      return new UnauthoirzedError(customError.name, customError.message);
     default:
       return new InternalServerError(
         customError.stack,

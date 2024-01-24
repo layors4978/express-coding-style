@@ -6,4 +6,11 @@ module.exports = {
     host: 'localhost',
     port: 3000,
   },
+
+  jwt: {
+    accessToken: {
+      secret: 'secret',
+      expiresIn: 3 * 24 * 60 * 60, // 3 days
+    },
+  },
 };
