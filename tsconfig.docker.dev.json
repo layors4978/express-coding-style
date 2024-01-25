@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "watchOptions": {
+    // 在container裡watch功能有時會失效，此時要修改watchOption來讓他重新生效
+    "watchFile": "fixedPollingInterval"
+  }
+}
